@@ -3,7 +3,8 @@ import './App.css';
 import { Component } from 'react';
 import { Users } from './components/Users';
 import { Items } from './components/Items';
-
+import { Header } from './components/Header';
+import './index.scss';
 
 
 class App extends Component {
@@ -37,15 +38,10 @@ class App extends Component {
   }
 
 
-  render () { 
+  render () {
     return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
+      <Header></Header>
       <div>
         <Users users={this.state.users}></Users>
       </div>
