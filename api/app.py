@@ -153,12 +153,11 @@ class SubjectResource(Resource):
             return json_response(status_=404, message="Not Found")
 
 
-@api.resource('/api/giveaway', '/api/giveaway/', '/api/wanted', '/api/wanted/')
-class GiveawayListResource(Resource):
+class DemandListResource(Resource):
     def get(self):
-        return json_response(status_=200, message="OK", data=[i.serialize for i in Demand.query.all()])
+        pass
 
-    def post(self):
+    def post(self, direction_give):
         # TODO: you should validate things but fuck it
         parser = reqparse.RequestParser()
         parser.add_argument('owner', type=int, help='Id of subject')
@@ -173,7 +172,7 @@ class GiveawayListResource(Resource):
             owner=args['owner'],
             item_name=args['item_name'],
             item_count=args['item_count'],
-            direction_give=1,
+            direction_give=direction_give,
             item_type=args['item_type'],
             item_condition=args['item_condition'],
             what_in_exchange=args['what_in_exchange']
@@ -183,7 +182,25 @@ class GiveawayListResource(Resource):
         return json_response(status_=201, message="Created", data=my_demand.serialize)
 
 
-@api.resource('/api/giveaway/<int:subject_id>')
+@api.resource('/api/giveaway', '/api/giveaway/')
+class GiveawayListResource(DemandListResource):
+    def get(self):
+        return json_response(status_=200, message="OK", data=[i.serialize for i in Demand.query.filter(Demand.direction_give == '0').all()])
+
+    def post(self):
+        return super().post('0')
+
+
+@api.resource('/api/wanted', '/api/wanted/')
+class WantedListResource(DemandListResource):
+    def get(self):
+        return json_response(status_=200, message="OK", data=[i.serialize for i in Demand.query.filter(Demand.direction_give == '1').all()])
+
+    def post(self):
+        return super().post('1')
+
+
+@api.resource('/api/giveaway/<int:subject_id>', '/api/wanted/<int:subject_id>')
 class GiveawayResource(Resource):
     def get(self, demand_id=None):
         if demand_id:
