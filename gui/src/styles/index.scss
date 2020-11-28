@@ -1,0 +1,35 @@
+@charset "utf-8";
+//@import '../node_modules/bulma/sass/utilities/all';
+
+//// Set your brand colors
+//$purple: #8a4d76;
+//$pink: #fa7c91;
+//$brown: #757763;
+//$beige-light: #d0d1cd;
+//$beige-lighter: #eff0eb;
+//
+//// Update Bulma's global variables
+//$family-sans-serif: sans-serif;
+//$grey-dark: $brown;
+//$grey-light: $beige-light;
+//$grey-lighter: $beige-lighter;
+//$primary: $purple;
+//$link: $grey-darker;
+//$widescreen-enabled: false;
+//$fullhd-enabled: false;
+//$link-dark: $grey-darker;
+//$link-hover: $grey-darker;
+//$link-visited: $grey-darker;
+//$link-active: $grey-darker;
+//
+//// Update some of Bulma's component variables
+//$background: $beige-lighter;
+//$body-background-color: $beige-lighter;
+//$control-border-width: 2px;
+//$input-border-color: transparent;
+//$input-shadow: none;
+//$footer-padding: 1rem;
+
+// Import only what you need from Bulma
+//@import '../node_modules/bulma/bulma';
+@import "../../node_modules/bootstrap/scss/bootstrap";
