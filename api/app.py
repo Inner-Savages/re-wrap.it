@@ -87,6 +87,7 @@ class SubjectListResource(Resource):
         db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
         return json_response(status_=201, message="Created", data=my_subject.serialize)
 
+
 @api.resource('/api/subject/<int:subject_id>')
 class SubjectResource(Resource):
     @swag_from("docs/SubjectResource/get.yml")

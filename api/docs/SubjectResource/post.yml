@@ -6,11 +6,31 @@ parameters:
    type: string
    required: true
    description: Name of subject
+   example: Jan Kowalski
  - in: body
    name: address_text
    type: string
    required: true
    description: Address of subject
+   example: Podkowa 1/13, Leśniczanka Wielka, Polska
+ - in: body
+   name: address_latitude
+   type: float
+   required: true
+   description: Geolocations of subject - latitude
+   example: 53.123
+ - in: body
+   name: address_longitude
+   type: float
+   required: true
+   description: Geolocations of subject - longitude
+   example: 12.2131
+ - in: body
+   name: contact_info
+   type: string
+   required: true
+   description: Contact information
+   example: 48123456789
 responses:
   201:
     description: Subject created
