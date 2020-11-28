@@ -17,8 +17,14 @@ class App extends Component {
     }
   }
 
-  componentDidMount(){
-    this.getUsers()
+  componentDidMount() {
+  this.getUsers()
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+  }
+
+  componentWillUnmount() {
   }
 
   getUsers = () => {
