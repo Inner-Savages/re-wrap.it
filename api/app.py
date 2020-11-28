@@ -37,6 +37,7 @@ swagger = Swagger(app, template=template)
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.Text, unique=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     address_text = db.Column(db.String(80), unique=False, nullable=False)
     address_latitude = db.Column(db.Float, unique=False, nullable=False)
@@ -44,13 +45,14 @@ class Subject(db.Model):
     contact_info = db.Column(db.String(80), unique=False, nullable=False)
 
     def __repr__(self):
-        return '<Subject %r>' % self.name
+        return '<Subject %r>' % self.email
 
     @property
     def serialize(self):
         """Return object data in easily serializable format"""
         return {
             'id': self.id,
+            'email': self.email,
             'name': self.name,
             'address_text': self.address_text,
             'address_latitude': self.address_latitude,
@@ -70,6 +72,7 @@ class SubjectListResource(Resource):
         # TODO: you should validate things but fuck it
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, help='Name of subject')
+        parser.add_argument('email', type=str, help='E-mail of subject')
         parser.add_argument('address_text', type=str, help='Address of subject')
         parser.add_argument('address_latitude', type=float, help='Geolocations of subject: latitude')
         parser.add_argument('address_longitude', type=float, help='Geolocations of subject: longitude')
@@ -78,6 +81,7 @@ class SubjectListResource(Resource):
 
         my_subject = Subject(
             name=args['name'],
+            email=args['email'],
             address_text=args['address_text'],
             address_latitude=args['address_latitude'],
             address_longitude=args['address_longitude'],
