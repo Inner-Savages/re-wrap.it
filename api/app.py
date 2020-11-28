@@ -153,7 +153,7 @@ class SubjectResource(Resource):
             return json_response(status_=404, message="Not Found")
 
 
-@api.resource('/api/giveaway', '/api/giveaway/')
+@api.resource('/api/giveaway', '/api/giveaway/', '/api/wanted', '/api/wanted/')
 class GiveawayListResource(Resource):
     def get(self):
         return json_response(status_=200, message="OK", data=[i.serialize for i in Demand.query.all()])
