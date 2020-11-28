@@ -1,0 +1,18 @@
+Endpoint for adding subjects
+---
+parameters:
+ - in: body
+   name: name
+   type: string
+   required: true
+   description: Name of subject
+ - in: body
+   name: address_text
+   type: string
+   required: true
+   description: Address of subject
+responses:
+  201:
+    description: Subject created
+  404:
+    description: Subject not found

@@ -59,18 +59,13 @@ class Subject(db.Model):
         }
 
 
-class SubjectResource(Resource):
+@api.resource('/api/subject', '/api/subject/')
+class SubjectListResource(Resource):
     @swag_from("docs/SubjectResource/get.yml")
-    def get(self, subject_id=None):
-        if subject_id:
-            my_subject = Subject.query.get(subject_id)
-            if my_subject:
-                return json_response(status_=200, message="OK", data=Subject.query.get(subject_id).serialize)
-            else:
-                return json_response(status_=404, message="Not Found")
-        else:
-            return json_response(status_=200, message="OK", data=[i.serialize for i in Subject.query.all()])
+    def get(self):
+        return json_response(status_=200, message="OK", data=[i.serialize for i in Subject.query.all()])
 
+    @swag_from("docs/SubjectResource/post.yml")
     def post(self):
         # TODO: you should validate things but fuck it
         parser = reqparse.RequestParser()
@@ -92,7 +87,21 @@ class SubjectResource(Resource):
         db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
         return json_response(status_=201, message="Created", data=my_subject.serialize)
 
-    def delete(self,subject_id=None):
+@api.resource('/api/subject/<int:subject_id>')
+class SubjectResource(Resource):
+    @swag_from("docs/SubjectResource/get.yml")
+    def get(self, subject_id=None):
+        if subject_id:
+            my_subject = Subject.query.get(subject_id)
+            if my_subject:
+                return json_response(status_=200, message="OK", data=Subject.query.get(subject_id).serialize)
+            else:
+                return json_response(status_=404, message="Not Found")
+        else:
+            return json_response(status_=404, message="Not Found")
+
+    @swag_from("docs/SubjectResource/delete.yml")
+    def delete(self, subject_id=None):
         my_subject = Subject.query.get(subject_id)
         if my_subject:
             db.session.delete(my_subject)
@@ -101,8 +110,6 @@ class SubjectResource(Resource):
         else:
             return json_response(status_=404, message="Not Found")
 
-
-api.add_resource(SubjectResource, '/api/subject', '/api/subject/', '/api/subject/<int:subject_id>')
 
 if __name__ == "__main__":
     app.run()
