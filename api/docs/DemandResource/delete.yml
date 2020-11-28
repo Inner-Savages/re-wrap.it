@@ -1,0 +1,7 @@
+Endpoint for deleting subjects
+---
+responses:
+  200:
+    description: Subject deleted
+  404:
+    description: Subject not found
