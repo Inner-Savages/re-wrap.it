@@ -2,7 +2,7 @@ import './App.css';
 import { Component } from 'react';
 import { Users } from './components/Users';
 import { Header } from './components/Header';
-import './index.scss';
+import './styles/index.scss';
 import {Footer} from "./components/Footer";
 import {Menu} from "./components/Menu";
 import {Login} from "./components/Login";
@@ -20,7 +20,7 @@ class App extends Component {
     this.state = {
       login: '',
       userdata: '',
-      current: 'users',
+      current: 'login',
       users: [],
       items: []
     }
@@ -49,8 +49,11 @@ class App extends Component {
     let page
     switch (this.state.current) {
       case 'login':
-        page = <Login parent={this}/>
-        break
+        return (
+            <div className="text-center">
+              <Login parent={this}/>
+            </div>
+        );
       case 'logged':
         page = <Logged parent={this}/>
         break

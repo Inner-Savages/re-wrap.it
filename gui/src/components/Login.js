@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './../styles/signin.css';
 
 class Login extends Component {
   constructor(props) {
@@ -34,36 +35,23 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="hero-body">
-        <div className="container has-text-centered">
-          <div className="column is-4 is-offset-4">
-      <div className="box">
-        <figure className="avatar">
-          <img src="https://placehold.it/128x128"/>
-        </figure>
-        <form onSubmit={this.handleSubmit}>
-          <div className="field">
-            <div className="control">
-              <input className="input is-medium" type="email" name={'email'} placeholder="Your Email" autoFocus="" onChange={this.handleChange}/>
+      <div className="text-center">
+          <form className="form-signin"  onSubmit={this.handleSubmit}>
+           <img className="center" src="./1.png" alt="centered image" width="300" height="300"/>
+           <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+           <label htmlFor="inputEmail" className="sr-only">Email address</label>
+           <input className="form-control" type="email" name={'email'} placeholder="Your Email" autoFocus=""  required onChange={this.handleChange}/>
+          <label htmlFor="inputPassword" className="sr-only">Password</label>
+          <input type="password" id="inputPassword" className="form-control" placeholder="Password" required/>
+            <div className="checkbox mb-3">
+              <label>
+                <input type="checkbox" value="remember-me"/> Remember me
+              </label>
             </div>
-          </div>
+            <button className="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+            <p className="mt-5 mb-3 text-muted">Inner Savages &copy; 2020</p>
 
-          <div className="field">
-            <div className="control">
-              <input className="input is-medium" type="password" placeholder="Your Password"/>
-            </div>
-          </div>
-          <div className="field">
-            <label className="checkbox">
-              <input type="checkbox"/>
-                Remember me
-            </label>
-          </div>
-          <button className="button is-block is-success is-large is-fullwidth">Login <i className="fa fa-sign-in" aria-hidden="true" /></button>
         </form>
-      </div>
-          </div>
-        </div>
       </div>
     )
   }
