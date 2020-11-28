@@ -8,21 +8,43 @@ class Menu extends Component {
 
   render() {
     return (
-      <nav className="navbar has-background-grey-lighter mx-3" role="navigation" aria-label="main navigation">
-        <div className="navbar-start">
-          <div className="navbar-item" onClick={() => this.setUrl('wanted')}><a className="has-text-link-grey-dark" href="#wanted">Szukam śmieci</a></div>
-          <div className="navbar-item" onClick={() => this.setUrl('giveaway')}><a className="has-text-link-grey-dark" href="#giveaway">Chcę pozbyć się śmieci</a></div>
-          {this.props.parent.state.login ? (
-              <div className="navbar-item" onClick={() => this.setUrl('logout')}><a className="has-text-link-grey-dark" href="#logout">Wyloguj [{this.props.parent.state.login}]</a></div>
-            ) : (
-              <>
-                <div className="navbar-item" onClick={() => this.setUrl('login')}><a className="has-text-link-grey-dark" href="#login">Logowanie</a></div>
-                <div className="navbar-item" onClick={() => this.setUrl('register')}><a className="has-text-link-grey-dark" href="#register">Rejestracja</a></div>
-              </>
-            )
-          }
-        </div>
-        <div className="navbar-end"></div>
+        <nav className="navbar navbar-expand-md navbar-dark bg-success fixed-top">
+          <a className="navbar-brand" href="#">Re-Wrap.it</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                  aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+              <ul className="navbar-nav mr-auto">
+                  <li className={"nav-item " + (this.props.parent.state.current === "home" ? ("active"):(""))}>
+                      <a className="nav-link" href="#">Home</a>
+                  </li>
+                  <li className={"nav-item " + (this.props.parent.state.current === "idea" ? ("active"):(""))}>
+                      <a className="nav-link" href="#">Idea</a>
+                  </li>
+                  <li className={"nav-item " + (this.props.parent.state.current === "giveaway" ? ("active"):(""))}>
+                      <a className="nav-link" href="#" onClick={() => this.setUrl('giveaway')}>Give</a>
+                  </li>
+                  <li className={"nav-item " + (this.props.parent.state.current === "wanted" ? ("active"):(""))}>
+                      <a className="nav-link" href="#" onClick={() => this.setUrl('wanted')}>Get</a>
+                  </li>
+              </ul>
+              {this.props.parent.state.login ? (
+                  <button type="button" className="btn btn-info"
+                          onClick={() => this.setUrl('logout')}>Logout {this.props.parent.state.login}</button>
+              ) : (
+                  <>
+                      <button type="button" className="btn btn-info"
+                              onClick={() => this.setUrl('login')}>Log in
+                      </button>
+                      <button type="button" className="btn btn-info"
+                              onClick={() => this.setUrl('register')}>Register
+                      </button>
+                  </>
+              )
+              }
+          </div>
       </nav>
     )
 
