@@ -5,7 +5,8 @@ CREATE TABLE subject (
 	address_text TEXT NOT NULL,
 	address_latitude REAL,
 	address_longitude REAL,
-	contact_info TEXT NOT NULL
+	contact_info TEXT NOT NULL,
+	CHECK(email <> '')
 );
 CREATE UNIQUE INDEX subject_email_IDX ON subject (email);
 

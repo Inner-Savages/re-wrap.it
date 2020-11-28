@@ -1,3 +1,4 @@
+import sqlalchemy
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -87,8 +88,11 @@ class SubjectListResource(Resource):
             address_longitude=args['address_longitude'],
             contact_info=args['contact_info']
         )
-        db.session.add(my_subject)
-        db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
+        try:
+            db.session.add(my_subject)
+            db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
+        except sqlalchemy.exc.IntegrityError as e:
+            return json_response(status_=409, message="Conflict", data=my_subject.serialize, exception=str(e))
         return json_response(status_=201, message="Created", data=my_subject.serialize)
 
 
