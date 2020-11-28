@@ -1,0 +1,7 @@
+Example endpoint returning a list of subjects
+---
+responses:
+  200:
+    description: A list of subjects
+    examples:
+      rgb: ['red', 'green', 'blue']

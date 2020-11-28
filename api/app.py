@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_json import FlaskJSON, json_response
 from flask_restful import reqparse, Api, Resource
+from flasgger import Swagger, swag_from
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
@@ -10,6 +11,28 @@ api = Api(app)
 db = SQLAlchemy(app)
 CORS(app)
 json = FlaskJSON(app)
+
+# Create an APISpec
+template = {
+  "swagger": "2.0",
+  "info": {
+    "title": "re-wrap.it API",
+    "description": "Desc",
+    "version": "0.1.0",
+    "contact": {
+      "name": "q84fh",
+      "url": "https://q84fh.net/",
+    }
+  }
+}
+
+app.config['SWAGGER'] = {
+    'title': 're-wrap.it API',
+    'uiversion': 3,
+    "specs_route": "/api/docs/",
+    'doc_dir': './docs/'
+}
+swagger = Swagger(app, template=template)
 
 
 class Subject(db.Model):
@@ -37,7 +60,8 @@ class Subject(db.Model):
 
 
 class SubjectResource(Resource):
-    def get(self,subject_id=None):
+    @swag_from("docs/SubjectResource/get.yml")
+    def get(self, subject_id=None):
         if subject_id:
             my_subject = Subject.query.get(subject_id)
             if my_subject:
@@ -78,7 +102,7 @@ class SubjectResource(Resource):
             return json_response(status_=404, message="Not Found")
 
 
-api.add_resource(SubjectResource, '/api/subject', '/api/subject/<int:subject_id>')
+api.add_resource(SubjectResource, '/api/subject', '/api/subject/', '/api/subject/<int:subject_id>')
 
 if __name__ == "__main__":
     app.run()
