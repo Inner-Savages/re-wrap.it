@@ -103,7 +103,7 @@ class SubjectResource(Resource):
         try:
             tmp = int(subject_id)
             my_subject = Subject.query.get(subject_id)
-        except:
+        except ValueError:
             my_subject = Subject.query.filter_by(email=subject_id).first()
         if my_subject:
             return json_response(status_=200, message="OK", data=my_subject.serialize)
@@ -112,7 +112,11 @@ class SubjectResource(Resource):
 
     @swag_from("docs/SubjectResource/delete.yml")
     def delete(self, subject_id=None):
-        my_subject = Subject.query.get(subject_id)
+        try:
+            tmp = int(subject_id)
+            my_subject = Subject.query.get(subject_id)
+        except ValueError:
+            my_subject = Subject.query.filter_by(email=subject_id).first()
         if my_subject:
             db.session.delete(my_subject)
             db.session.commit()
