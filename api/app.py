@@ -56,7 +56,7 @@ def subject():
         db.session.add(my_subject)
         db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
         return Response("{'status':'created'}", status=201, mimetype='application/json')
-    if request.method == 'DELETE':
+    #if request.method == 'DELETE':
 
 
 @app.route('/api/dupaslonia', methods=['GET'])

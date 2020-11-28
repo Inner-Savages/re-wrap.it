@@ -1,3 +1,3 @@
 import sys, os
 sys.path.append(os.getcwd())
-from app import app as application
+from api.app import app as application
