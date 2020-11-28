@@ -54,15 +54,53 @@ class Register extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-          Name: <input type="text" value={this.state.name} onChange={this.handleChange} name={'name'} className="input is-medium"/>
-          Contact: <input type="text" value={this.state.contact} onChange={this.handleChange} name={'contact'} className="input is-medium"/>
-          Email: <input type="text" value={this.state.email} onChange={this.handleChange} name={'email'} className="input is-medium"/>
-          Address: <input type="text" value={this.state.address} onChange={this.handleChange} name={'address'} className="input is-medium"/>
-          Latitude: <input type="text" value={this.state.latitude} onChange={this.handleChange} name={'latitude'} className="input is-medium"/>
-          Longitude: <input type="text" value={this.state.longitude} onChange={this.handleChange} name={'longitude'} className="input is-medium"/>
-        <input type="submit" value="Register" />
-      </form>
+        <main role="main" className="container">
+        <form onSubmit={this.handleSubmit}>
+            <div className="form-group row">
+                <label htmlFor="name" className="col-sm-3 col-form-label">Name and surname/company name</label>
+                <div className="col-sm-9">
+                    <input type="text" className="form-control" id="name" placeholder="Name and surname/company name"
+                           value={this.state.name} onChange={this.handleChange} name={'name'}/>
+                </div>
+            </div>
+            <div className="form-group row">
+                <label htmlFor="email" className="col-sm-3 col-form-label">Email</label>
+                <div className="col-sm-9">
+                    <input type="text" className="form-control" id="email" placeholder="Email" value={this.state.email}
+                           onChange={this.handleChange} name={'email'}/>
+                </div>
+            </div>
+            <div className="form-group row">
+                <label htmlFor="address" className="col-sm-3 col-form-label">Address</label>
+                <div className="col-sm-9">
+                    <input type="text" className="form-control" id="address" placeholder="Address"
+                           value={this.state.address} onChange={this.handleChange} name={'address'} />
+                </div>
+            </div>
+            <div className="form-group row">
+                <label htmlFor="contact" className="col-sm-3 col-form-label">Contact information</label>
+                <div className="col-sm-9">
+                    <input type="text" className="form-control" id="address" placeholder="Contact"
+                           value={this.state.contact} onChange={this.handleChange} name={'contact'} />
+                </div>
+            </div>
+            <div className="form-group row">
+                <label htmlFor="latitude" className="col-sm-3 col-form-label">Latitude</label>
+                <div className="col-sm-9">
+                    <input type="number" className="form-control" id="latitude" placeholder="Latitude"
+                           value={this.state.latitude} onChange={this.handleChange} name={'latitude'}/>
+                </div>
+            </div>
+            <div className="form-group row">
+                <label htmlFor="longitude" className="col-sm-3 col-form-label">Longitude</label>
+                <div className="col-sm-9">
+                    <input type="number" className="form-control" id="longitude" placeholder="Longitude"
+                           value={this.state.longitude} onChange={this.handleChange} name={'longitude'}/>
+                </div>
+            </div>
+            <input type="submit" className="btn btn-success" value="Submit"/>
+        </form>
+        </main>
     );
   }
 }

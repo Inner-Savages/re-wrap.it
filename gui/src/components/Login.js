@@ -33,6 +33,11 @@ class Login extends Component {
     this.setState({[name]: value});
   }
 
+  setUrl(path) {
+    this.props.parent.setState({current: path})
+    console.log(this.props.parent.state)
+  }
+
   render() {
     return (
       <div className="text-center">
@@ -49,6 +54,9 @@ class Login extends Component {
               </label>
             </div>
             <button className="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+              <button className="btn btn-lg btn-success btn-block" type="submit"
+                      onClick={() => this.setUrl('register')}>Register
+              </button>
             <p className="mt-5 mb-3 text-muted">Inner Savages &copy; 2020</p>
 
         </form>

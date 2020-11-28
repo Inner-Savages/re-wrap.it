@@ -74,7 +74,6 @@ class App extends Component {
     }
     return (
         <>
-
             <Menu parent={this}/>
             {page}
             <Footer/>
