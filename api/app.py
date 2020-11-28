@@ -87,58 +87,6 @@ class SubjectListResource(Resource):
         db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
         return json_response(status_=201, message="Created", data=my_subject.serialize)
 
-@api.resource('/api/subject/<int:subject_id>')
-class SubjectResource(Resource):
-    @swag_from("docs/SubjectResource/get.yml")
-    def get(self, subject_id=None):
-        if subject_id:
-            my_subject = Subject.query.get(subject_id)
-            if my_subject:
-                return json_response(status_=200, message="OK", data=Subject.query.get(subject_id).serialize)
-            else:
-                return json_response(status_=404, message="Not Found")
-        else:
-            return json_response(status_=404, message="Not Found")
-
-    @swag_from("docs/SubjectResource/delete.yml")
-    def delete(self, subject_id=None):
-        my_subject = Subject.query.get(subject_id)
-        if my_subject:
-            db.session.delete(my_subject)
-            db.session.commit()
-            return json_response(status_=200, message="Deleted")
-        else:
-            return json_response(status_=404, message="Not Found")
-
-
-@api.resource('/api/subject', '/api/subject/')
-class SubjectListResource(Resource):
-    @swag_from("docs/SubjectResource/get.yml")
-    def get(self):
-        return json_response(status_=200, message="OK", data=[i.serialize for i in Subject.query.all()])
-
-    @swag_from("docs/SubjectResource/post.yml")
-    def post(self):
-        # TODO: you should validate things but fuck it
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str, help='Name of subject')
-        parser.add_argument('address_text', type=str, help='Address of subject')
-        parser.add_argument('address_latitude', type=float, help='Geolocations of subject: latitude')
-        parser.add_argument('address_longitude', type=float, help='Geolocations of subject: longitude')
-        parser.add_argument('contact_info', type=str, help='Contact information')
-        args = parser.parse_args(strict=True)
-
-        my_subject = Subject(
-            name=args['name'],
-            address_text=args['address_text'],
-            address_latitude=args['address_latitude'],
-            address_longitude=args['address_longitude'],
-            contact_info=args['contact_info']
-        )
-        db.session.add(my_subject)
-        db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
-        return json_response(status_=201, message="Created", data=my_subject.serialize)
-
 
 @api.resource('/api/subject/<int:subject_id>')
 class SubjectResource(Resource):
