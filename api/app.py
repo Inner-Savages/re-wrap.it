@@ -4,12 +4,13 @@ from flask import Response
 from flask_sqlalchemy import SQLAlchemy
 from flask import jsonify
 from flask_cors import CORS
+from flask_json import FlaskJSON, JsonError, json_response, as_json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
 db = SQLAlchemy(app)
 CORS(app)
-
+json = FlaskJSON(app)
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,12 +41,21 @@ def hello_world():
     return render_template("index.html")
 
 
-@app.route('/api/subject', methods=['GET', 'PUT'])
-def subject():
+@app.route('/api/subject/', methods=['GET', 'POST'])
+@app.route('/api/subject/<int:subject_id>', methods=['DELETE','GET'])
+def subject(subject_id=None):
     if request.method == 'GET':
-        return jsonify([i.serialize for i in Subject.query.all()])
+        if subject_id:
+            my_subject = Subject.query.get(subject_id)
+            if my_subject:
+                return json_response(status_=200, message="OK", data=Subject.query.get(subject_id).serialize)
+            else:
+                return json_response(status_=404, message="Not Found")
+        else:
+            return json_response(status_=200, message="OK", data=[i.serialize for i in Subject.query.all()])
+
     if request.method == 'POST':
-        # TODO: you should validate things
+        # TODO: you should validate things but fuck it
         my_subject = Subject(
             name=request.form['name'],
             address_text=request.form['address_text'],
@@ -55,13 +65,16 @@ def subject():
         )
         db.session.add(my_subject)
         db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
-        return Response("{'status':'created'}", status=201, mimetype='application/json')
-    #if request.method == 'DELETE':
+        return json_response(status_=201, message="Created", data=my_subject.serialize)
 
-
-@app.route('/api/dupaslonia', methods=['GET'])
-def dupaslonia():
-    return jsonify({"alamakota": "test"})
+    if request.method == 'DELETE':
+        my_subject = Subject.query.get(subject_id)
+        if my_subject:
+            db.session.delete(my_subject)
+            db.session.commit()
+            return json_response(status_=200, message="Deleted")
+        else:
+            return json_response(status_=404, message="Not Found")
 
 
 if __name__ == "__main__":
