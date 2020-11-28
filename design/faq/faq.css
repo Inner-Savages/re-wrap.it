@@ -1,0 +1,19 @@
+body {
+    padding-top: 5rem;
+  }
+  .starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  
+  .give {
+    background-color: darkseagreen;
+  }
+  
+  .want {
+    background-color: yellowgreen;
+  }
+  
+  .top-space {
+    padding-top: 1rem;
+  }
