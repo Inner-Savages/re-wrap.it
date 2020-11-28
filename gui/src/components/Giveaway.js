@@ -26,7 +26,7 @@ class Giveaway extends Component {
       <div>
         {
           this.state.items.map((item, index) => (
-            <Item image={item} idx={index}/>
+            <Item item={item} idx={index}/>
           ))
         }
       </div>

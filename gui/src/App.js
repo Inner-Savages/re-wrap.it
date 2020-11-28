@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import { Component } from 'react';
 import { Users } from './components/Users';
-import { Items } from './components/Items';
 import { Header } from './components/Header';
 import './index.scss';
 import {Footer} from "./components/Footer";
