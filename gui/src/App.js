@@ -1,6 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import { Component } from 'react';
+import { Users } from './components/Users';
+import { Items } from './components/Items';
+
 
 
 class App extends Component {
@@ -8,22 +11,27 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      data: {
-         cokolwiek: "Jakis string"
-      }
+      users: [],
+      items: []
     }
   }
 
   componentDidMount(){
-    this.wielkaDupa()
+    this.getUsers()
   }
 
-
-
-  wielkaDupa = () => {
-    fetch("https://re-wrap.it/api/subject").then(dupa => dupa.json()).then((dupa) => {
+  getUsers = () => {
+    fetch("https://re-wrap.it/api/subject/").then(data => data.json()).then((data) => {
       this.setState({
-        data: dupa
+        users: data.data
+      })
+    })
+  }
+
+  getItems = () => {
+    fetch("https://re-wrap.it/api/items/").then(data => data.json()).then((data) => {
+      this.setState({
+        items: data.data
       })
     })
   }
@@ -37,17 +45,10 @@ class App extends Component {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div>
-              {this.state.data.cokolwiek}
-          </div>
-        </a>
       </header>
+      <div>
+        <Users users={this.state.users}></Users>
+      </div>
     </div>
   );
  }
