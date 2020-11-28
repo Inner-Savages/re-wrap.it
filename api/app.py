@@ -1,8 +1,8 @@
-from flask import (Flask, request)
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_json import FlaskJSON, JsonError, json_response, as_json
-from flask_restful import Api, Resource, reqparse
+from flask_json import FlaskJSON, json_response
+from flask_restful import reqparse, Api, Resource
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
@@ -35,57 +35,50 @@ class Subject(db.Model):
             'contact_info': self.contact_info,
         }
 
+
 class SubjectResource(Resource):
-    def get(self):
-        a = int(request.args.get("a"))
-        b = int(request.args.get("b"))
-        numsum = a + b
-        prod = a * b
-        div = a / b
-        return jsonify({
-            "sum": numsum,
-            "product": prod,
-            "division": div
-        })
+    def get(self,subject_id=None):
+        if subject_id:
+            my_subject = Subject.query.get(subject_id)
+            if my_subject:
+                return json_response(status_=200, message="OK", data=Subject.query.get(subject_id).serialize)
+            else:
+                return json_response(status_=404, message="Not Found")
+        else:
+            return json_response(status_=200, message="OK", data=[i.serialize for i in Subject.query.all()])
+
+    def post(self):
+        # TODO: you should validate things but fuck it
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', type=str, help='Name of subject')
+        parser.add_argument('address_text', type=str, help='Address of subject')
+        parser.add_argument('address_latitude', type=float, help='Geolocations of subject: latitude')
+        parser.add_argument('address_longitude', type=float, help='Geolocations of subject: longitude')
+        parser.add_argument('contact_info', type=str, help='Contact information')
+        args = parser.parse_args(strict=True)
+
+        my_subject = Subject(
+            name=args['name'],
+            address_text=args['address_text'],
+            address_latitude=args['address_latitude'],
+            address_longitude=args['address_longitude'],
+            contact_info=args['contact_info']
+        )
+        db.session.add(my_subject)
+        db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
+        return json_response(status_=201, message="Created", data=my_subject.serialize)
+
+    def delete(self,subject_id=None):
+        my_subject = Subject.query.get(subject_id)
+        if my_subject:
+            db.session.delete(my_subject)
+            db.session.commit()
+            return json_response(status_=200, message="Deleted")
+        else:
+            return json_response(status_=404, message="Not Found")
 
 
-# @app.route('/api/subject/', methods=['GET', 'POST'])
-# @app.route('/api/subject/<int:subject_id>', methods=['DELETE','GET'])
-# def subject(subject_id=None):
-#     if request.method == 'GET':
-#         if subject_id:
-#             my_subject = Subject.query.get(subject_id)
-#             if my_subject:
-#                 return json_response(status_=200, message="OK", data=Subject.query.get(subject_id).serialize)
-#             else:
-#                 return json_response(status_=404, message="Not Found")
-#         else:
-#             return json_response(status_=200, message="OK", data=[i.serialize for i in Subject.query.all()])
-#
-#     if request.method == 'POST':
-#         # TODO: you should validate things but fuck it
-#         my_subject = Subject(
-#             name=request.form['name'],
-#             address_text=request.form['address_text'],
-#             address_latitude=request.form['address_latitude'],
-#             address_longitude=request.form['address_longitude'],
-#             contact_info=request.form['contact_info']
-#         )
-#         db.session.add(my_subject)
-#         db.session.commit()  # TODO: we should check if we've succeeded, but fuck it
-#         return json_response(status_=201, message="Created", data=my_subject.serialize)
-#
-#     if request.method == 'DELETE':
-#         my_subject = Subject.query.get(subject_id)
-#         if my_subject:
-#             db.session.delete(my_subject)
-#             db.session.commit()
-#             return json_response(status_=200, message="Deleted")
-#         else:
-#             return json_response(status_=404, message="Not Found")
-
-
-api.add_resource(SubjectResource, '/api/subject')
+api.add_resource(SubjectResource, '/api/subject', '/api/subject/<int:subject_id>')
 
 if __name__ == "__main__":
     app.run()
