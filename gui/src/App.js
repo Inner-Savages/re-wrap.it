@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-  this.getUsers()
+    this.getUsers()
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -45,15 +45,6 @@ class App extends Component {
       })
     })
   }
-
-  getItems = () => {
-    fetch("https://re-wrap.it/api/items/").then(data => data.json()).then((data) => {
-      this.setState({
-        items: data.data
-      })
-    })
-  }
-
 
   render () {
     console.log(this.state)
