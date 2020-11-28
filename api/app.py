@@ -38,12 +38,12 @@ swagger = Swagger(app, template=template)
 
 class Demand(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
     owner = db.Column(db.Integer)
-
-    direction_give = db.Column(db.Boolean)
-    type = db.Column(db.String)
-    condition = db.Column(db.String)
+    item_name = db.Column(db.String)
+    item_count = db.Column(db.Integer)
+    direction_give = db.Column(db.Integer)
+    item_type = db.Column(db.String)
+    item_condition = db.Column(db.String)
     what_in_exchange = db.Column(db.String)
 
     def __repr__(self):
@@ -54,6 +54,13 @@ class Demand(db.Model):
         """Return object data in easily serializable format"""
         return {
             'id': self.id,
+            'owner': self.owner,
+            'item_name': self.item_name,
+            'item_count': self.item_count,
+            'direction_give': self. direction_give,
+            'item_type': self.item_type,
+            'item_condition': self.item_condition,
+            'what_in_exchange': self.what_in_exchange
         }
 
 
@@ -146,28 +153,29 @@ class SubjectResource(Resource):
             return json_response(status_=404, message="Not Found")
 
 
-@api.resource('/api/demand', '/api/demand/')
-class DemandListResource(Resource):
-    @swag_from("docs/DemandResource/get.yml")
+@api.resource('/api/giveaway', '/api/giveaway/')
+class GiveawayListResource(Resource):
     def get(self):
         return json_response(status_=200, message="OK", data=[i.serialize for i in Demand.query.all()])
 
-    @swag_from("docs/DemandResource/post.yml")
     def post(self):
         # TODO: you should validate things but fuck it
         parser = reqparse.RequestParser()
-        parser.add_argument('who', type=int, help='Id of subject')
-        parser.add_argument('direction_give', type=bool, help='Give or take (true = give, false = take')
-        parser.add_argument('type', type=str, help='What is type of item')
-        parser.add_argument('condition', type=str, help='What is a condition of item')
+        parser.add_argument('owner', type=int, help='Id of subject')
+        parser.add_argument('item_name', type=str, help='')
+        parser.add_argument('item_count', type=int, help='How many items you have/willing to take')
+        parser.add_argument('item_type', type=str, help='What kind of item is this?')
+        parser.add_argument('item_condition', type=str, help='What is a condition of item')
         parser.add_argument('what_in_exchange', type=str, help='What you expect in exchange (can be nothing -> null)')
         args = parser.parse_args(strict=True)
 
         my_demand = Demand(
-            who=args['who'],
-            direction_give=args['direction_give'],
-            type=args['type'],
-            condition=args['condition'],
+            owner=args['owner'],
+            item_name=args['item_name'],
+            item_count=args['item_count'],
+            direction_give=1,
+            item_type=args['item_type'],
+            item_condition=args['item_condition'],
             what_in_exchange=args['what_in_exchange']
         )
         db.session.add(my_demand)
@@ -175,9 +183,8 @@ class DemandListResource(Resource):
         return json_response(status_=201, message="Created", data=my_demand.serialize)
 
 
-@api.resource('/api/demand/<int:subject_id>')
-class DemandResource(Resource):
-    @swag_from("docs/DemandResource/get.yml")
+@api.resource('/api/giveaway/<int:subject_id>')
+class GiveawayResource(Resource):
     def get(self, demand_id=None):
         if demand_id:
             my_demand = Demand.query.get(demand_id)
