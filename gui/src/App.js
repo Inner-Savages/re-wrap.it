@@ -5,6 +5,14 @@ import { Users } from './components/Users';
 import { Items } from './components/Items';
 import { Header } from './components/Header';
 import './index.scss';
+import {Footer} from "./components/Footer";
+import {Menu} from "./components/Menu";
+import {Login} from "./components/Login";
+import {Register} from "./components/Register";
+import {Wanted} from "./components/Wanted";
+import {Giveaway} from "./components/Giveaway";
+import {Logged} from "./components/Logged";
+import {Logout} from "./components/Logout";
 
 
 class App extends Component {
@@ -12,6 +20,9 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
+      login: '',
+      userdata: '',
+      current: 'users',
       users: [],
       items: []
     }
@@ -45,13 +56,41 @@ class App extends Component {
 
 
   render () {
+    console.log(this.state)
+    let page
+    switch (this.state.current) {
+      case 'login':
+        page = <Login parent={this}/>
+        break
+      case 'logged':
+        page = <Logged parent={this}/>
+        break
+      case 'logout':
+        page = <Logout parent={this}/>
+        break
+      case 'register':
+        page = <Register parent={this}/>
+        break
+      case 'wanted':
+        page = <Wanted/>
+        break
+      case 'giveaway':
+        page = <Giveaway/>
+        break
+      default:
+        page = <Users users={this.state.users}/>
+    }
     return (
-    <div className="App">
-      <Header></Header>
-      <div>
-        <Users users={this.state.users}></Users>
-      </div>
-    </div>
+      <div className="columns">
+          <div className="column pt-6">[empty space?]</div>
+          <div className="column is-half">
+            <Header/>
+            <Menu parent={this}/>
+            {page}
+            <Footer/>
+          </div>
+          <div className="column pt-6">[empty space?]</div>
+        </div>
   );
  }
 }
