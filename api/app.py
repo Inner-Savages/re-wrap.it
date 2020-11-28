@@ -1,8 +1,5 @@
-from flask import (Flask, render_template)
-from flask import request
-from flask import Response
+from flask import (Flask, request)
 from flask_sqlalchemy import SQLAlchemy
-from flask import jsonify
 from flask_cors import CORS
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 
@@ -11,6 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
 db = SQLAlchemy(app)
 CORS(app)
 json = FlaskJSON(app)
+
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,11 +32,6 @@ class Subject(db.Model):
             'address_longitude': self.address_longitude,
             'contact_info': self.contact_info,
         }
-
-
-@app.route('/')
-def hello_world():
-    return render_template("index.html")
 
 
 @app.route('/api/subject/', methods=['GET', 'POST'])
