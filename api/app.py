@@ -96,16 +96,17 @@ class SubjectListResource(Resource):
         return json_response(status_=201, message="Created", data=my_subject.serialize)
 
 
-@api.resource('/api/subject/<int:subject_id>')
+@api.resource('/api/subject/<subject_id>')
 class SubjectResource(Resource):
     @swag_from("docs/SubjectResource/get.yml")
     def get(self, subject_id=None):
-        if subject_id:
+        try:
+            tmp = int(subject_id)
             my_subject = Subject.query.get(subject_id)
-            if my_subject:
-                return json_response(status_=200, message="OK", data=Subject.query.get(subject_id).serialize)
-            else:
-                return json_response(status_=404, message="Not Found")
+        except:
+            my_subject = Subject.query.filter_by(email=subject_id).first()
+        if my_subject:
+            return json_response(status_=200, message="OK", data=my_subject.serialize)
         else:
             return json_response(status_=404, message="Not Found")
 
