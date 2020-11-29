@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class Idea extends Component {
   render() {
     return (
+      <main role="main" className="container">
       <div class="my-3 p-3 bg-white rounded shadow-sm">
 
 
@@ -77,6 +78,7 @@ class Idea extends Component {
             </div>
           </div>
       </div>
+      </main>
     )
   }
 }
