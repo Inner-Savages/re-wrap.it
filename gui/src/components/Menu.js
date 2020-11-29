@@ -9,7 +9,7 @@ class Menu extends Component {
   render() {
     return (
         <nav className="navbar navbar-expand-md navbar-dark bg-success fixed-top">
-          <a className="navbar-brand" href="#">Re-Wrap.it</a>
+          <a className="navbar-brand" href="#" onClick={() => this.setUrl('mainpage')}>Re-Wrap.it</a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                   aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
@@ -18,7 +18,7 @@ class Menu extends Component {
           <div className="collapse navbar-collapse" id="navbarsExampleDefault">
               <ul className="navbar-nav mr-auto">
                   <li className={"nav-item " + (this.props.parent.state.current === "home" ? ("active"):(""))}>
-                      <a className="nav-link" href="#">Home</a>
+                      <a className="nav-link" href="#" onClick={() => this.setUrl('mainpage')}>Home</a>
                   </li>
                   <li className={"nav-item " + (this.props.parent.state.current === "idea" ? ("active"):(""))}>
                       <a className="nav-link" href="#">Idea</a>

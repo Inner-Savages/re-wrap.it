@@ -17,7 +17,7 @@ class Login extends Component {
       .then(data => data.json())
       .then((data) => this.props.parent.setState(
         {
-          current: "logged",
+          current: "mainpage",
           login: this.state.email,
           userdata: data.data
         }))

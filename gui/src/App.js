@@ -11,6 +11,7 @@ import {Wanted} from "./components/Wanted";
 import {Giveaway} from "./components/Giveaway";
 import {Logged} from "./components/Logged";
 import {Logout} from "./components/Logout";
+import {Mainpage} from "./components/Mainpage";
 
 
 class App extends Component {
@@ -48,6 +49,9 @@ class App extends Component {
     console.log(this.state)
     let page
     switch (this.state.current) {
+      case 'mainpage':
+        page = <Mainpage parent={this}/>
+        break
       case 'login':
         return (
             <div className="text-center">
