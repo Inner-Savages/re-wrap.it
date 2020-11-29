@@ -21,7 +21,7 @@ class Menu extends Component {
                       <a className="nav-link" href="#">Home</a>
                   </li>
                   <li className={"nav-item " + (this.props.parent.state.current === "idea" ? ("active"):(""))}>
-                      <a className="nav-link" href="#">Idea</a>
+                      <a className="nav-link" href="#" onClick={() => this.setUrl('idea')}>Idea</a>
                   </li>
                   <li className={"nav-item " + (this.props.parent.state.current === "giveaway" ? ("active"):(""))}>
                       <a className="nav-link" href="#" onClick={() => this.setUrl('giveaway')}>Give</a>
