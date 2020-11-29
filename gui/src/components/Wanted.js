@@ -10,6 +10,11 @@ class Wanted extends Component {
     }
   }
 
+  setUrl(path) {
+    this.props.parent.setState({current: path})
+    console.log(this.props.parent.state)
+  }
+
   componentDidMount() {
     this.getItems()
   }
@@ -25,6 +30,9 @@ class Wanted extends Component {
   render() {
     return (
         <div className="container">
+          <a href="#" onClick={() => this.setUrl('add_wanted')}>
+            <img className="center" src="./images/2b.png" alt="centered image" width="300" height="300"/>
+          </a>
           <div className="row align-items-start">
             {
               this.state.items.map((item, index) => (

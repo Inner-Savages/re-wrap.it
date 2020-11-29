@@ -14,6 +14,7 @@ import {Logout} from "./components/Logout";
 import {Mainpage} from "./components/Mainpage";
 import {Idea} from "./components/Idea";
 import {AddGiveway} from "./components/AddGiveway";
+import {AddWanted} from "./components/AddWanted";
 
 class App extends Component {
 
@@ -69,7 +70,10 @@ class App extends Component {
         page = <Register parent={this}/>
         break
       case 'wanted':
-        page = <Wanted/>
+        page = <Wanted parent={this}/>
+        break
+      case 'add_wanted':
+        page = <AddWanted parent={this}/>
         break
       case 'idea':
         page = <Idea parent={this}/>
