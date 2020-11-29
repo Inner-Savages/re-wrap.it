@@ -73,16 +73,11 @@ class App extends Component {
         page = <Users users={this.state.users}/>
     }
     return (
-      <div className="columns">
-          <div className="column pt-6">[empty space?]</div>
-          <div className="column is-half">
-            <Header/>
+        <>
             <Menu parent={this}/>
             {page}
             <Footer/>
-          </div>
-          <div className="column pt-6">[empty space?]</div>
-        </div>
+        </>
   );
  }
 }
