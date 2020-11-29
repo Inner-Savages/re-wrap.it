@@ -12,6 +12,7 @@ import {Giveaway} from "./components/Giveaway";
 import {Logged} from "./components/Logged";
 import {Logout} from "./components/Logout";
 import {Mainpage} from "./components/Mainpage";
+import {Idea} from "./components/Idea";
 
 
 class App extends Component {
@@ -69,6 +70,9 @@ class App extends Component {
         break
       case 'wanted':
         page = <Wanted/>
+        break
+      case 'idea':
+        page = <Idea parent={this}/>
         break
       case 'giveaway':
         page = <Giveaway/>
