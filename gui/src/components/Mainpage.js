@@ -40,7 +40,7 @@ class Mainpage extends Component {
     render() {
         return (
             <>
-            <div class="container" style={{'padding-top': '120px'}}>
+            <div class="container" style={{'margin-top': '250px'}}>
                 <div class="row">
                     <div class="col">
                         <input type="image" src="./images/2a.png" class="card-img-right float-lg-right" width="200"
