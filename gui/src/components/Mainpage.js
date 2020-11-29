@@ -40,7 +40,7 @@ class Mainpage extends Component {
     render() {
         return (
             <>
-            <div class="container pt">
+            <div class="container" style={{'padding-top': '120px'}}>
                 <div class="row">
                     <div class="col">
                         <input type="image" src="./images/2a.png" class="card-img-right float-lg-right" width="200"
@@ -54,24 +54,24 @@ class Mainpage extends Component {
             </div>
 
         <main role="main" class="container">
-            <div class="container mh-75">
-                <div><p>Recently people want to give..</p></div>
-                <div class="row align-items-start h-25">
+            <div class="container">
+                <h2 class="my3">Recently people wanted to give...</h2>
+                <div class="card-deck">
                     {
                         this.state.giveaway.map((item, index) => (
                             <Item item={item} idx={index}/>
                         ))
                     }
                 </div>
-                <div class="top-space"><p>Recently people want to get..</p></div>
-                <div class="row align-items-center h-25">
-                    {
-                        this.state.wanted.map((item, index) => (
-                            <Item item={item} idx={index}/>
-                        ))
-                    }
+                <h2 class="top-space my-3">Recently people wanted to get...</h2>
+                        <div class="card-deck">
+                            {
+                                this.state.wanted.map((item, index) => (
+                                    <Item item={item} idx={index}/>
+                                ))
+                            }
+                        </div>
                 </div>
-            </div>
         </main>
     </>
         );
