@@ -1,11 +1,42 @@
 import React, {Component} from 'react';
 import './../styles/style.css';
+import Item from "./Item";
 
 class Mainpage extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            wanted: [],
+            giveaway: []
+        }
+    }
+
+    componentDidMount() {
+        this.getWanted()
+        this.getGiveaway()
+    }
+
     setUrl(path) {
         this.props.parent.setState({current: path})
         console.log(this.props.parent.state)
     }
+
+    getWanted = () => {
+        fetch("https://re-wrap.it/api/wanted/").then(data => data.json()).then((data) => {
+            this.setState({
+                wanted: data.data
+            })
+        })
+    }
+
+    getGiveaway = () => {
+        fetch("https://re-wrap.it/api/giveaway/").then(data => data.json()).then((data) => {
+            this.setState({
+                giveaway: data.data
+            })
+        })
+    }
+
     render() {
         return (
             <>
@@ -23,91 +54,22 @@ class Mainpage extends Component {
             </div>
 
         <main role="main" class="container">
-            <div class="container">
+            <div class="container mh-75">
                 <div><p>Recently people want to give..</p></div>
-                <div class="row align-items-start">
-
-                    <div class="col">
-                        <div class="card">
-                            <img src="./images/box-placeholder.png" class="card-img-top" alt="..."/>
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-success btn-sm">Book</button>
-                                        <button type="button" class="btn btn-primary btn-sm">More info</button>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="./images/box-placeholder.png" class="card-img-top" alt="..."/>
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-success btn-sm">Book</button>
-                                        <button type="button" class="btn btn-primary btn-sm">More info</button>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="./images/box-placeholder.png" class="card-img-top" alt="..."/>
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-success btn-sm">Book</button>
-                                        <button type="button" class="btn btn-primary btn-sm">More info</button>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
+                <div class="row align-items-start h-25">
+                    {
+                        this.state.giveaway.map((item, index) => (
+                            <Item item={item} idx={index}/>
+                        ))
+                    }
                 </div>
                 <div class="top-space"><p>Recently people want to get..</p></div>
-                <div class="row align-items-center">
-                    <div class="col">
-                        <div class="card">
-                            <img src="./images/box-placeholder.png" class="card-img-top" alt="..."/>
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-success btn-sm">Book</button>
-                                        <button type="button" class="btn btn-primary btn-sm">More info</button>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="./images/box-placeholder.png" class="card-img-top" alt="..."/>
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-success btn-sm">Book</button>
-                                        <button type="button" class="btn btn-primary btn-sm">More info</button>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="./images/box-placeholder.png" class="card-img-top" alt="..."/>
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-success btn-sm">Book</button>
-                                        <button type="button" class="btn btn-primary btn-sm">More info</button>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
+                <div class="row align-items-center h-25">
+                    {
+                        this.state.wanted.map((item, index) => (
+                            <Item item={item} idx={index}/>
+                        ))
+                    }
                 </div>
             </div>
         </main>

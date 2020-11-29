@@ -23,13 +23,15 @@ class Giveaway extends Component {
 
   render() {
     return (
-      <div>
-        {
-          this.state.items.map((item, index) => (
-            <Item item={item} idx={index}/>
-          ))
-        }
-      </div>
+        <div className="container">
+          <div className="row align-items-start">
+              {
+                this.state.items.map((item, index) => (
+                  <Item item={item} idx={index}/>
+                ))
+              }
+          </div>
+        </div>
     )
   }
 }
