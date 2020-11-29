@@ -1,6 +1,55 @@
 import React, { Component } from 'react';
 
 class AddWanted extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      owner: this.props.parent.state.userdata.id,
+      item_name: '',
+      item_count: '',
+      item_type: '',
+      item_condition: 'checkboxy nie pasują do modelu bazy',
+      what_in_exchange: ''
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name
+
+    this.setState({[name]: value});
+  }
+
+  handleSubmit(event) {
+    let formdata = new FormData();
+    formdata.append("owner", this.state.owner);
+    formdata.append("item_name", this.state.item_name);
+    formdata.append("item_count", this.state.item_count);
+    formdata.append("item_type", this.state.item_type);
+    formdata.append("item_condition", this.state.item_condition);
+    formdata.append("what_in_exchange", this.state.what_in_exchange);
+
+    let requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow'
+    };
+
+    fetch("https://re-wrap.it/api/wanted/", requestOptions)
+      .then(data => data.json())
+      .then((data) => this.props.parent.setState(
+        {
+          current: "wanted"
+        }))
+      .catch(error => console.log('error', error));
+    formdata = new FormData();
+    event.preventDefault();
+  }
+
   render() {
     return (
         <div className="container">
@@ -41,18 +90,18 @@ class AddWanted extends Component {
             </div>
             <div className="col-md-8 order-md-1">
               <h4 className="mb-3"></h4>
-              <form className="needs-validation" noValidate>
+              <form className="needs-validation" noValidate onSubmit={this.handleSubmit}>
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label htmlFor="productName">Name of the advertisement</label>
-                    <input type="text" className="form-control" id="productName" placeholder="" value="" required/>
+                    <input type="text" className="form-control" id="productName" placeholder="" value="" value={this.state.item_name} onChange={this.handleChange} name={'item_name'} required/>
                     <div className="invalid-feedback">
                       Valid first name is required.
                     </div>
                   </div>
                   <div className="col-md-4 mb-3">
                     <label htmlFor="Category">Category</label>
-                    <select className="custom-select d-block w-100" id="Category" required>
+                    <select className="custom-select d-block w-100" id="Category" value={this.state.item_type} onChange={this.handleChange} name={'item_type'} required>
                       <option value="">Plastic bags</option>
                       <option>Cartons</option>
                       <option>Jars</option>
@@ -158,7 +207,7 @@ class AddWanted extends Component {
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label htmlFor="cc-name">Quantity</label>
-                    <input type="text" className="form-control" id="cc-name" placeholder="" required/>
+                    <input type="text" className="form-control" id="cc-name" placeholder="" value={this.state.item_count} onChange={this.handleChange} name={'item_count'} required/>
                     <div className="invalid-feedback">
                       Quantity is required.
                     </div>
@@ -174,7 +223,7 @@ class AddWanted extends Component {
                 <div className="row">
                   <div className="col-md-4 mb-4">
                     <label htmlFor="cc-expiration">Payment</label>
-                    <input type="text" className="form-control" id="cc-expiration" placeholder=""/>
+                    <input type="text" className="form-control" id="cc-expiration" placeholder="" value={this.state.what_in_exchange} onChange={this.handleChange} name={'what_in_exchange'}/>
                     <div className="invalid-feedback">
                       Bonus date required
                     </div>
