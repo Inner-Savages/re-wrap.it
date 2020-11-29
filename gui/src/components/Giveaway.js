@@ -9,6 +9,11 @@ class Giveaway extends Component {
     }
   }
 
+  setUrl(path) {
+    this.props.parent.setState({current: path})
+    console.log(this.props.parent.state)
+  }
+
   componentDidMount() {
     this.getItems()
   }
@@ -24,6 +29,9 @@ class Giveaway extends Component {
   render() {
     return (
         <div className="container">
+         <a href="#" onClick={() => this.setUrl('add_giveway')}>
+            <img class="center" src="./images/2a.png" alt="centered image" width="300" height="300"/>
+         </a>
           <div className="row align-items-start">
               {
                 this.state.items.map((item, index) => (

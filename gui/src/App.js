@@ -13,7 +13,7 @@ import {Logged} from "./components/Logged";
 import {Logout} from "./components/Logout";
 import {Mainpage} from "./components/Mainpage";
 import {Idea} from "./components/Idea";
-
+import {AddGiveway} from "./components/AddGiveway";
 
 class App extends Component {
 
@@ -74,8 +74,11 @@ class App extends Component {
       case 'idea':
         page = <Idea parent={this}/>
         break
+      case 'add_giveway':
+        page = <AddGiveway parent={this}/>
+        break
       case 'giveaway':
-        page = <Giveaway/>
+        page = <Giveaway parent={this}/>
         break
       default:
         page = <Users users={this.state.users}/>
