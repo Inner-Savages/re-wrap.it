@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Item extends Component {
   render() {
     return (
-        <div className="col">
+        <div className="col-lg-3 col-md-2 col-sm-12 mb-3">
           <div className="card">
             <img src="./images/box-placeholder.png" className="card-img-top" alt="..."/>
             <div className="card-body">
